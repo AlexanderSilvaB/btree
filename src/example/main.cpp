@@ -1,7 +1,7 @@
 #include <BT.hpp>
 #include <iostream>
 
-using namespace BTree;
+using namespace btree;
 using namespace std;
 
 void PassTime(Blackboard& blackboard)

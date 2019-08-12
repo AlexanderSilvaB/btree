@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 
-using namespace BTree;
+using namespace btree;
 using namespace std;
 
 Var::Var()

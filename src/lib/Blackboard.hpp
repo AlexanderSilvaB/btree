@@ -4,7 +4,7 @@
 #include <string>
 #include "Var.hpp"
 
-namespace BTree
+namespace btree
 {
     typedef std::unordered_map< std::string, Var > DataSet;
 

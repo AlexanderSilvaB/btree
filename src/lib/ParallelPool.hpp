@@ -4,7 +4,7 @@
 #include <thread>
 #include <list>
 
-namespace BTree
+namespace btree
 {
     class Task
     {

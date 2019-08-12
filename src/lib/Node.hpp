@@ -9,7 +9,7 @@
 #include <utility>
 #include <string>
 
-namespace BTree
+namespace btree
 {
     class Node;
     typedef std::shared_ptr<Node> NodePtr;

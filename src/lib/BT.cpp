@@ -2,7 +2,7 @@
 #include <iostream>
 #include <chrono>
 
-using namespace BTree;
+using namespace btree;
 using namespace std;
 
 map< thread::id, BT* > BT::btrees;

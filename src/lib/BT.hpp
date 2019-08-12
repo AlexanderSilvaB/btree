@@ -11,7 +11,7 @@
 #include <opencv2/opencv.hpp>
 #endif
 
-namespace BTree
+namespace btree
 {
     class BT;
 

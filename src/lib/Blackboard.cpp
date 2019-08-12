@@ -1,6 +1,6 @@
 #include "Blackboard.hpp"
 
-using namespace BTree;
+using namespace btree;
 using namespace std;
 
 Blackboard::Blackboard()

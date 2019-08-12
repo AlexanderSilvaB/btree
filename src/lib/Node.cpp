@@ -1,7 +1,7 @@
 #include "Node.hpp"
 #include "ParallelPool.hpp"
 
-using namespace BTree;
+using namespace btree;
 using namespace std;
 
 Node::Node()

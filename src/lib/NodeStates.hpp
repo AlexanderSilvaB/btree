@@ -1,5 +1,5 @@
 #pragma once
-namespace BTree
+namespace btree
 {
     enum NodeStates {FAILURE, SUCCESS, RUNNING};
 }

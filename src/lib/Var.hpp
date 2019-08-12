@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace BTree
+namespace btree
 {
     class Var
     {
