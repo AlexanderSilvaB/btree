@@ -1,0 +1,5 @@
+#pragma once
+namespace BTree
+{
+    enum NodeTypes {LEAF, ACTION, CALL, INVERTER, SUCCEEDER, REPEATER, UNTIL, SELECTOR, SEQUENCE, RANDOM, PARALLEL };
+}
