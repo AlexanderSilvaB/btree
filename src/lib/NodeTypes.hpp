@@ -1,5 +1,0 @@
-#pragma once
-namespace btree
-{
-    enum NodeTypes {LEAF, ACTION, CALL, INVERTER, SUCCEEDER, REPEATER, UNTIL, SELECTOR, SEQUENCE, RANDOM, PARALLEL };
-}
