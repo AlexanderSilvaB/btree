@@ -38,6 +38,8 @@ namespace btree
             virtual ~BT();
 
             NodePtr root();
+            NodePtr find(const std::string& id);
+            NodePtr findByName(const std::string& name);
 
             void start(unsigned long ms);
             void stop();

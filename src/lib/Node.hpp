@@ -31,6 +31,7 @@ namespace btree
     {
         protected:
             bool initialized;
+            std::string id;
             std::string name;
             int counter;
             NodeStates nodeState;
@@ -57,14 +58,24 @@ namespace btree
             NodeTypes type();
             NodePtr child();
 
+            NodePtr find(const std::string& id);
+            NodePtr findByName(const std::string& name);
+
+            void setId(const std::string& id);
+            std::string getId();
+
             void setName(const std::string& name);
             std::string getName();
 
             void setCounter(int value);
             int getCounter();
 
+            int index(NodePtr node);
             NodePtr add(); 
             NodePtr at(int index);
+            NodePtr insert(int pos);
+            NodePtr insertAfter(NodePtr node);
+            NodePtr insertBefore(NodePtr node);
             void remove(NodePtr node); 
 
             void asAction(std::function<NodeStates (Blackboard&)> handler);

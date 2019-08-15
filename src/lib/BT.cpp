@@ -25,6 +25,20 @@ NodePtr BT::root()
     return node;
 }
 
+NodePtr BT::find(const std::string& id)
+{
+    if(node->getId() == id)
+        return node;
+    return node->find(id);
+}
+
+NodePtr BT::findByName(const std::string& name)
+{
+    if(node->getName() == name)
+        return node;
+    return node->findByName(name);
+}
+
 void BT::start(unsigned long ms)
 {
     if(running)

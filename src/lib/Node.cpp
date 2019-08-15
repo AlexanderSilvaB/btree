@@ -32,6 +32,15 @@ NodePtr Node::child()
     return nodes.front();
 }
 
+void Node::setId(const std::string& id)
+{
+    this->id = id;
+}
+
+std::string Node::getId()
+{
+    return id;
+}
 
 void Node::setName(const std::string& name)
 {
@@ -41,6 +50,38 @@ void Node::setName(const std::string& name)
 std::string Node::getName()
 {
     return name;
+}
+
+NodePtr Node::find(const std::string& id)
+{
+    for(list< NodePtr >::iterator it = nodes.begin(); it != nodes.end(); it++)
+    {
+        if((*it)->id == id)
+            return *it;
+        else
+        {
+            NodePtr nodePtr = (*it)->find(id);
+            if(nodePtr)
+                return nodePtr;
+        }
+    }
+    return NodePtr();
+}
+
+NodePtr Node::findByName(const std::string& name)
+{
+    for(list< NodePtr >::iterator it = nodes.begin(); it != nodes.end(); it++)
+    {
+        if((*it)->name == name)
+            return *it;
+        else
+        {
+            NodePtr nodePtr = (*it)->findByName(name);
+            if(nodePtr)
+                return nodePtr;
+        }
+    }
+    return NodePtr();
 }
 
 void Node::setCounter(int value)
@@ -53,6 +94,18 @@ int Node::getCounter()
     return counter;
 }
 
+int Node::index(NodePtr node)
+{
+    int i = 0;
+    for(list< NodePtr >::iterator it = nodes.begin(); it != nodes.end(); it++)
+    {
+        if(node == *it)
+            break;
+        i++;
+    }
+    return i;
+}
+
 NodePtr Node::add()
 {
     nodes.push_back( make_shared<Node>() );
@@ -61,13 +114,43 @@ NodePtr Node::add()
 
 NodePtr Node::at(int index)
 {
-    if(index >= nodes.size())
+    if(index < 0 || index >= nodes.size())
         return NodePtr();
 
     list< NodePtr >::iterator it = nodes.begin();
     advance(it, index);
     return *it;
 }
+
+NodePtr Node::insert(int pos)
+{
+    if(pos < 0)
+        return NodePtr();
+
+    if(pos > nodes.size())
+        pos = nodes.size();
+
+    list< NodePtr >::iterator it = nodes.begin();
+    advance(it, pos);
+    list< NodePtr >::iterator ins = nodes.insert(it, make_shared<Node>());
+    return *ins;
+}
+
+NodePtr Node::insertBefore(NodePtr node)
+{
+    int pos = index(node);
+    return insert(pos);
+}
+
+NodePtr Node::insertAfter(NodePtr node)
+{
+    int pos = index(node);
+    if(pos < nodes.size())
+        pos++;
+    return insert(pos);
+}
+
+
 void Node::remove(NodePtr node)
 {
     nodes.remove(node);
