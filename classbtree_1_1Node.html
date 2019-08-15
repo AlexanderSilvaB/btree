@@ -85,6 +85,18 @@ NodeTypes&#160;</td><td class="memItemRight" valign="bottom"><b>type</b> ()</td>
 <tr class="memitem:a00703d354bc6dc9eff7e21693e382cde"><td class="memItemLeft" align="right" valign="top"><a id="a00703d354bc6dc9eff7e21693e382cde"></a>
 NodePtr&#160;</td><td class="memItemRight" valign="bottom"><b>child</b> ()</td></tr>
 <tr class="separator:a00703d354bc6dc9eff7e21693e382cde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a335eecd4772c05010b50edaeb9b93521"><td class="memItemLeft" align="right" valign="top"><a id="a335eecd4772c05010b50edaeb9b93521"></a>
+NodePtr&#160;</td><td class="memItemRight" valign="bottom"><b>find</b> (const std::string &amp;id)</td></tr>
+<tr class="separator:a335eecd4772c05010b50edaeb9b93521"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad066df73b600a7ecf2a7ba444e72df94"><td class="memItemLeft" align="right" valign="top"><a id="ad066df73b600a7ecf2a7ba444e72df94"></a>
+NodePtr&#160;</td><td class="memItemRight" valign="bottom"><b>findByName</b> (const std::string &amp;name)</td></tr>
+<tr class="separator:ad066df73b600a7ecf2a7ba444e72df94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14d985c8f039e3b545e6bbd91d1360d2"><td class="memItemLeft" align="right" valign="top"><a id="a14d985c8f039e3b545e6bbd91d1360d2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setId</b> (const std::string &amp;id)</td></tr>
+<tr class="separator:a14d985c8f039e3b545e6bbd91d1360d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5f58d94e49e90df628152323cbf0237"><td class="memItemLeft" align="right" valign="top"><a id="af5f58d94e49e90df628152323cbf0237"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getId</b> ()</td></tr>
+<tr class="separator:af5f58d94e49e90df628152323cbf0237"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a519730c66b26e65c6539a908e6905edc"><td class="memItemLeft" align="right" valign="top"><a id="a519730c66b26e65c6539a908e6905edc"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setName</b> (const std::string &amp;name)</td></tr>
 <tr class="separator:a519730c66b26e65c6539a908e6905edc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -97,12 +109,24 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setCounter</b> (int v
 <tr class="memitem:ab53ff67a2c8f1b43ba81ef160b33ef63"><td class="memItemLeft" align="right" valign="top"><a id="ab53ff67a2c8f1b43ba81ef160b33ef63"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>getCounter</b> ()</td></tr>
 <tr class="separator:ab53ff67a2c8f1b43ba81ef160b33ef63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a808edb45f44a3d4252da0aba89937994"><td class="memItemLeft" align="right" valign="top"><a id="a808edb45f44a3d4252da0aba89937994"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>index</b> (NodePtr node)</td></tr>
+<tr class="separator:a808edb45f44a3d4252da0aba89937994"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb0b31dd9aeb09af5d62798c020316c9"><td class="memItemLeft" align="right" valign="top"><a id="abb0b31dd9aeb09af5d62798c020316c9"></a>
 NodePtr&#160;</td><td class="memItemRight" valign="bottom"><b>add</b> ()</td></tr>
 <tr class="separator:abb0b31dd9aeb09af5d62798c020316c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e8468a634a1164155aeb02134366ee2"><td class="memItemLeft" align="right" valign="top"><a id="a9e8468a634a1164155aeb02134366ee2"></a>
 NodePtr&#160;</td><td class="memItemRight" valign="bottom"><b>at</b> (int index)</td></tr>
 <tr class="separator:a9e8468a634a1164155aeb02134366ee2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad22db5646f166c78585af611c7cfa41c"><td class="memItemLeft" align="right" valign="top"><a id="ad22db5646f166c78585af611c7cfa41c"></a>
+NodePtr&#160;</td><td class="memItemRight" valign="bottom"><b>insert</b> (int pos)</td></tr>
+<tr class="separator:ad22db5646f166c78585af611c7cfa41c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad358729ad23ddd2722c268ef500446b7"><td class="memItemLeft" align="right" valign="top"><a id="ad358729ad23ddd2722c268ef500446b7"></a>
+NodePtr&#160;</td><td class="memItemRight" valign="bottom"><b>insertAfter</b> (NodePtr node)</td></tr>
+<tr class="separator:ad358729ad23ddd2722c268ef500446b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff77bd0aac9a3f47e3bd070f0c31b339"><td class="memItemLeft" align="right" valign="top"><a id="aff77bd0aac9a3f47e3bd070f0c31b339"></a>
+NodePtr&#160;</td><td class="memItemRight" valign="bottom"><b>insertBefore</b> (NodePtr node)</td></tr>
+<tr class="separator:aff77bd0aac9a3f47e3bd070f0c31b339"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ea617653a6e28ae2b2a6ccf0be189a0"><td class="memItemLeft" align="right" valign="top"><a id="a4ea617653a6e28ae2b2a6ccf0be189a0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>remove</b> (NodePtr node)</td></tr>
 <tr class="separator:a4ea617653a6e28ae2b2a6ccf0be189a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,6 +205,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a984c4a1fb9c09e148fd019cc86c638f8"><td class="memItemLeft" align="right" valign="top"><a id="a984c4a1fb9c09e148fd019cc86c638f8"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>initialized</b></td></tr>
 <tr class="separator:a984c4a1fb9c09e148fd019cc86c638f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad46daae30338653fa880228090b1a147"><td class="memItemLeft" align="right" valign="top"><a id="ad46daae30338653fa880228090b1a147"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
+<tr class="separator:ad46daae30338653fa880228090b1a147"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab31be7415a6132cd11bb830fad6426ca"><td class="memItemLeft" align="right" valign="top"><a id="ab31be7415a6132cd11bb830fad6426ca"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
 <tr class="separator:ab31be7415a6132cd11bb830fad6426ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
