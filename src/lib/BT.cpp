@@ -95,7 +95,7 @@ Blackboard& BT::blackboard()
 }
 
 #ifdef HAS_OPENCV
-void BT::draw(cv::Mat& img, struct NodeShape& shape, cv::Point2i& archor)
+void BT::draw(cv::Mat& img, struct NodeShape& shape, cv::Point2i& archor, bool showState)
 {
     int fontFace = cv::FONT_HERSHEY_COMPLEX_SMALL;
     double fontScaleHeader = 0.005 * shape.w;
@@ -177,33 +177,69 @@ void BT::draw(cv::Mat& img, struct NodeShape& shape, cv::Point2i& archor)
     cv::putText(img, shape.name, ptTextName, fontFace, fontScaleText, fg, thickness , cv::LINE_AA, false);
     cv::putText(img, header, ptTextHeader, fontFace, fontScaleHeader, fg, thickness , cv::LINE_AA, false);
 
+    if(showState)
+    {
+        cv::Rect2i stateRect(shape.x + shape.w - 10, shape.y + shape.h - 10, 10, 10);
+        cv::Scalar bgState(255, 0, 0);
+        switch(shape.state)
+        {
+            case SUCCESS:
+                bgState = cv::Scalar(0, 255, 0);
+                break;
+            case RUNNING:
+                bgState = cv::Scalar(0, 0, 255);
+                break;
+            case FAILURE:
+                bgState = cv::Scalar(255, 0, 0);
+                break;
+            default:
+                break;
+        }
+        cv::rectangle(img, stateRect, bgState, CV_FILLED);
+    }
+
     ptArchor.y += shape.h;
     for(list<struct NodeShape>::iterator it = shape.nodes.begin(); it != shape.nodes.end(); it++)
     {
-        draw(img, *it, ptArchor);
+        draw(img, *it, ptArchor, showState);
     }
 } 
-#endif
 
-bool BT::draw(const string& fileName, int width, int height, int margin)
+cv::Mat BT::draw(int width, int height, int margin, bool showState)
 {
     struct NodeDims dims = node->measure(width, height, margin);
     struct NodeShape shape = node->place(dims.w / 2, 0, width, height, margin);
 
-    #ifndef HAS_OPENCV
-    return false;
-    #else
     cv::Scalar white(255, 255, 255);
     cv::Mat img(dims.h, dims.w, CV_8UC3, white);
 
     cv::Point2i archor(-1, -1);
-    draw(img, shape, archor);
+    draw(img, shape, archor, showState);
 
     cv::cvtColor(img, img, cv::COLOR_BGR2RGB);
+    return img;
+}
 
+#endif
+
+bool BT::draw(const string& fileName, int width, int height, int margin)
+{
+    #ifndef HAS_OPENCV
+    return false;
+    #else
+    cv::Mat img = draw(width, height, margin, false);
     cv::imwrite(fileName, img);
-    cv::imshow( "Diagram", img );
-    cv::waitKey(0);
     #endif
     return true;
+}
+
+int BT::show(int ms, int width, int height, int margin)
+{
+    #ifndef HAS_OPENCV
+    return 0;
+    #else
+    cv::Mat img = draw(width, height, margin, true);
+    cv::imshow( "Behaviour Tree", img );
+    return cv::waitKey(ms);
+    #endif
 }

@@ -30,7 +30,8 @@ namespace btree
             void tick(unsigned long ms);
 
             #ifdef HAS_OPENCV
-            void draw(cv::Mat& img, struct NodeShape& shape, cv::Point2i& archor);
+            void draw(cv::Mat& img, struct NodeShape& shape, cv::Point2i& archor, bool showState);
+            cv::Mat draw(int width = 100, int height = 60, int margin = 10, bool showState = false);
             #endif
         public:
             BT();
@@ -44,6 +45,7 @@ namespace btree
             bool isMe();
 
             bool draw(const std::string& fileName, int width = 100, int height = 60, int margin = 10);
+            int show(int ms = 0, int width = 100, int height = 60, int margin = 10);
 
             static BT& current();
             static Blackboard& blackboard();

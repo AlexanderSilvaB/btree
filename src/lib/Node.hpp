@@ -23,6 +23,7 @@ namespace btree
         int x, y, w, h;
         std::string name;
         NodeTypes type;
+        NodeStates state;
         std::list< struct NodeShape > nodes;
     };
 

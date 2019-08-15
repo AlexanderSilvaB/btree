@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
 namespace btree
 {
@@ -35,5 +36,8 @@ namespace btree
             operator float() const;
             operator double() const;
             operator std::string() const;
+
+            friend std::ostream & operator << (std::ostream &out, const Var &v);
+            friend std::istream & operator >> (std::istream &in,  Var &v);
     };
 }

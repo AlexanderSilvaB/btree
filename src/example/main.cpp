@@ -4,6 +4,11 @@
 using namespace btree;
 using namespace std;
 
+void Show(Blackboard& blackboard)
+{
+    BT::current().show(30);
+}
+
 void PassTime(Blackboard& blackboard)
 {
     if(!blackboard.has("food"))
@@ -95,6 +100,10 @@ int main(int argc, char *argv[])
     NodePtr rootNode = bt.root();
     rootNode->asSequence();
 
+    NodePtr draw = rootNode->add();
+    draw->asCall(Show);
+    draw->setName("Show");
+
     NodePtr passTime = rootNode->add();
     passTime->asCall(PassTime);
     passTime->setName("Time");
@@ -116,10 +125,10 @@ int main(int argc, char *argv[])
     eatFood->asCall(EatFood);
     eatFood->setName("Eat Food");
 
-    bt.draw("bt.png");
-
     bt.start(10);
     bt.wait();
+    bt.draw("bt.png");
+    bt.show();
     
     return 0;
 }

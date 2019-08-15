@@ -393,6 +393,7 @@ struct NodeShape Node::place(int x, int y, int width, int height, int margin)
     shape.h = height;
     shape.type = nodeType;
     shape.name = name;
+    shape.state = nodeState;
 
     switch (nodeType)
     {

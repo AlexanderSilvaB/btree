@@ -134,3 +134,17 @@ void Var::from(const string& value)
 
     svalue = value;
 }
+
+ostream & operator << (ostream &out, const Var &v)
+{
+    out << (string)v;
+    return out;
+}
+ 
+istream & operator >> (istream &in,  Var &v)
+{
+    string str;
+    in >> str;
+    v = str;
+    return in;
+}
