@@ -1,0 +1,39 @@
+{
+    "Root" : 
+    {
+        "type" : "sequence",
+        "nodes" : 
+        {
+            "Time" : 
+            {
+                "type" : "call"
+            },
+            "Update" : 
+            {
+                "type" : "selector",
+                "nodes" : 
+                {
+                    "Ghosts" : 
+                    {
+                        "type" : "sequence",
+                        "nodes" : 
+                        {
+                            "IsGhostClose" : 
+                            {
+                                "type" : "action"
+                            },
+                            "Escape" : 
+                            {
+                                "type" : "call"
+                            }
+                        }
+                    },
+                    "Greedy" : 
+                    {
+                        "type" : "call"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -27,6 +27,9 @@ namespace btree
         std::list< struct NodeShape > nodes;
     };
 
+    typedef std::function<void (Blackboard&)> CallFunc;
+    typedef std::function<NodeStates (Blackboard&)> ActionFunc;
+
     class Node
     {
         protected:
@@ -36,8 +39,8 @@ namespace btree
             int counter;
             NodeStates nodeState;
             NodeTypes nodeType;
-            std::function<void (Blackboard&)> handlerCall;
-            std::function<NodeStates (Blackboard&)> handlerAction;
+            CallFunc handlerCall;
+            ActionFunc handlerAction;
             std::list< NodePtr > nodes;
 
             NodeStates evaluateAction(Blackboard& blackboard);
@@ -77,6 +80,7 @@ namespace btree
             NodePtr insertAfter(NodePtr node);
             NodePtr insertBefore(NodePtr node);
             void remove(NodePtr node); 
+            int size();
 
             void asAction(std::function<NodeStates (Blackboard&)> handler);
             void asCall(std::function<void (Blackboard&)> handler);

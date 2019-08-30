@@ -156,6 +156,11 @@ void Node::remove(NodePtr node)
     nodes.remove(node);
 }
 
+int Node::size()
+{
+    return nodes.size();
+}
+
 void Node::asAction(function<NodeStates (Blackboard&)> handler)
 {
     this->handlerAction = handler;
