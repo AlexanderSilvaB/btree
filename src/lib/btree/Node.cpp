@@ -161,13 +161,13 @@ int Node::size()
     return nodes.size();
 }
 
-void Node::asAction(function<NodeStates (Blackboard&)> handler)
+void Node::asAction(ActionFunc handler)
 {
     this->handlerAction = handler;
     nodeType = ACTION;
 }
 
-void Node::asCall(function<void (Blackboard&)> handler)
+void Node::asCall(CallFunc handler)
 {
     this->handlerCall = handler;
     nodeType = CALL;
@@ -242,7 +242,7 @@ NodeStates Node::evaluate(Blackboard& blackboard)
             break;
         case CALL:
             if(handlerCall)
-                handlerCall(blackboard);
+                handlerCall(this->name, blackboard);
             nodeState = SUCCESS;
             break;
         case ACTION:
@@ -284,7 +284,7 @@ NodeStates Node::evaluateAction(Blackboard& blackboard)
     if(!handlerAction)
         return FAILURE;
 
-    switch (handlerAction(blackboard)) 
+    switch (handlerAction(this->name, blackboard)) 
     { 
         case SUCCESS: 
             return SUCCESS; 

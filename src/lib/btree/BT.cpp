@@ -12,6 +12,17 @@ map< thread::id, BT* > BT::btrees;
 
 static BT defaultBT;
 
+static void defaultCall(const std::string& name, Blackboard& blackboard)
+{
+    cout << "[Call(" << name << ")] Not implemented" << endl;
+}
+
+static NodeStates defaultAction(const std::string& name, Blackboard& blackboard)
+{
+    cout << "[Action(" << name << ")] Not implemented" << endl;
+    return FAILURE;
+}
+
 BT::BT()
 {
     running = false;
@@ -239,12 +250,20 @@ void BT::updateFunction(NodePtr node)
         {
             node->asCall(calls[ node->getName() ]);
         }
+        else
+        {
+            node->asCall( defaultCall );
+        }
     }
     else if(node->type() == ACTION)
     {
         if(actions.find(node->getName()) != actions.end())
         {
             node->asAction(actions[ node->getName() ]);
+        }
+        else
+        {
+            node->asAction( defaultAction );
         }
     }
 

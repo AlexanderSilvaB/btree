@@ -4,12 +4,12 @@
 using namespace btree;
 using namespace std;
 
-void Show(Blackboard& blackboard)
+void Show(const string& name, Blackboard& blackboard)
 {
     BT::current().show(30);
 }
 
-void PassTime(Blackboard& blackboard)
+void PassTime(const string& name, Blackboard& blackboard)
 {
     if(!blackboard.has("food"))
         blackboard["food"] = 100;
@@ -31,7 +31,7 @@ void PassTime(Blackboard& blackboard)
     }
 }
 
-NodeStates AmIHungry(Blackboard& blackboard)
+NodeStates AmIHungry(const string& name, Blackboard& blackboard)
 {
     int hungry = blackboard["hungry"];
     cout << "Am I Hungry: ";
@@ -47,7 +47,7 @@ NodeStates AmIHungry(Blackboard& blackboard)
     }
 }
 
-NodeStates DoIHaveFood(Blackboard& blackboard) 
+NodeStates DoIHaveFood(const string& name, Blackboard& blackboard) 
 {
     int food = blackboard["food"];
     cout << "Do I Have Food: ";
@@ -63,7 +63,7 @@ NodeStates DoIHaveFood(Blackboard& blackboard)
     }
 }
 
-NodeStates EnemiesAround(Blackboard& blackboard) 
+NodeStates EnemiesAround(const string& name, Blackboard& blackboard) 
 {
     cout << "Enemies Around: ";
     int en = rand() % 100;
@@ -79,7 +79,7 @@ NodeStates EnemiesAround(Blackboard& blackboard)
     }
 }
 
-void EatFood(Blackboard& blackboard)
+void EatFood(const string& name, Blackboard& blackboard)
 {
     int food = blackboard["food"];
     int hungry = blackboard["hungry"];

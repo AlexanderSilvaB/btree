@@ -4,10 +4,10 @@
 using namespace std;
 using namespace btree;
 
-NodeStates IsGhostClose(Blackboard& blackboard);
-void Escape(Blackboard& blackboard);
-void Greedy(Blackboard& blackboard);
-void Time(Blackboard& blackboard);
+NodeStates IsGhostClose(const string& name, Blackboard& blackboard);
+void Escape(const string& name, Blackboard& blackboard);
+void Greedy(const string& name, Blackboard& blackboard);
+void Time(const string& name, Blackboard& blackboard);
 
 int main(int argc, char *argv[])
 {
@@ -27,26 +27,26 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void Time(Blackboard& blackboard)
+void Time(const string& name, Blackboard& blackboard)
 {
     cout << "Time" << endl;
     BT::current().show(30);
 }
 
-NodeStates IsGhostClose(Blackboard& blackboard) 
+NodeStates IsGhostClose(const string& name, Blackboard& blackboard) 
 {
     NodeStates isGhostClose = (rand() % 100) > 50 ? SUCCESS : FAILURE;
     cout << "IsGhostClose? " << isGhostClose << endl;
     return isGhostClose;
 }
 
-void Escape(Blackboard& blackboard) 
+void Escape(const string& name, Blackboard& blackboard) 
 {
     cout << "Escape" << endl;
 }
 
 
-void Greedy(Blackboard& blackboard)
+void Greedy(const string& name, Blackboard& blackboard)
 {
     cout << "Greedy" << endl;
 }
