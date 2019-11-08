@@ -1,1 +1,1 @@
-{"libs": ["btree"], "name": "btree", "language": "cpp", "exes": ["pacman", "food"]}
+{"name": "btree", "descr": "A C++ Behaviour Tree Implementation", "tool": "cmake-tools v0.1", "language": "cpp", "version": "0.1", "exes": ["pacman", "food"], "libs": ["btree"]}
