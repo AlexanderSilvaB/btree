@@ -29,6 +29,7 @@ namespace btree
 
     typedef std::function<void (const std::string&, Blackboard&)> CallFunc;
     typedef std::function<NodeStates (const std::string&, Blackboard&)> ActionFunc;
+    typedef std::function<bool (const std::string&, Blackboard&)> ConditionFunc;
 
     class Node
     {
@@ -41,9 +42,11 @@ namespace btree
             NodeTypes nodeType;
             CallFunc handlerCall;
             ActionFunc handlerAction;
+            ConditionFunc handlerCondition;
             std::list< NodePtr > nodes;
 
             NodeStates evaluateAction(Blackboard& blackboard);
+            NodeStates evaluateCondition(Blackboard& blackboard);
             NodeStates evaluateSelector(Blackboard& blackboard);
             NodeStates evaluateSequence(Blackboard& blackboard);
             NodeStates evaluateInverter(Blackboard& blackboard);
@@ -52,6 +55,7 @@ namespace btree
             NodeStates evaluateRepeater(Blackboard& blackboard);
             NodeStates evaluateUntil(Blackboard& blackboard);
             NodeStates evaluateParallel(Blackboard& blackboard);
+            NodeStates evaluateFlipper(Blackboard& blackboard);
         
         public:
             Node();
@@ -84,10 +88,12 @@ namespace btree
 
             void asAction(ActionFunc handler);
             void asCall(CallFunc handler);
+            void asCondition(ConditionFunc handler);
             void asSelector();
             void asSequence();
             void asParallel();
             void asRandom();
+            void asFlipper();
             NodePtr asInverter();
             NodePtr asSucceeder();
             NodePtr asRepeater();

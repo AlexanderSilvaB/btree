@@ -9,6 +9,7 @@
 #include <map>
 #include <string>
 #include <functional>
+#include "tinyxml2.h"
 
 #ifdef HAS_OPENCV
 #include <opencv2/opencv.hpp>
@@ -31,6 +32,7 @@ namespace btree
 
             Blackboard _blackboard;
             std::map<std::string, ActionFunc> actions;
+            std::map<std::string, ConditionFunc> conditions;
             std::map<std::string, CallFunc> calls;
 
             std::atomic<bool> running;
@@ -38,6 +40,7 @@ namespace btree
             std::thread tickThread;
             void tick(unsigned long ms);
             bool fromJson(NodePtr node, const std::string& name, json& j);
+            bool fromXML(NodePtr node, tinyxml2::XMLElement *xml);
             bool toJson(NodePtr node, json& j);
             void updateFunction(NodePtr node);
 
@@ -54,6 +57,7 @@ namespace btree
 
             void registerCall(const std::string& name, CallFunc call);
             void registerAction(const std::string& name, ActionFunc action);
+            void registerCondition(const std::string& name, ConditionFunc condition);
             void updateFunctions();
 
             NodePtr root();

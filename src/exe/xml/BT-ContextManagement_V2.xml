@@ -1,0 +1,47 @@
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="61986480">
+    <Selector ID="Application" name="application">
+      <Sequence ID="KeepAlive" name="keep_alive">
+        <Condition ID="EnergyIsLow" name="energy_is_low" />
+        <Action ID="MoveToEnergySource" name="move_to_energy_b_source" />
+        <Action ID="RechargeBattery" name="recharge_battery" />
+      </Sequence>
+      <Sequence ID="Patrol" name="patrol">
+        <Sequence ID="PatrolA" name="patrol_a">
+          <Selector ID="CheckEnergy" name="check_energy">
+            <Condition ID="EnergyIsOK" name="energy_is_ok" />
+            <Sequence ID="RechargeA" name="recharge_a" />
+          </Selector>
+          <Action ID="GoToA" name="go_to_a" />
+        </Sequence>
+        <Sequence ID="PatrolB" name="patrol_b">
+          <Selector ID="CheckEnergy" name="check_energy">
+            <Condition ID="EnergyIsOK" name="energy_is_ok" />
+            <Sequence ID="RechargeB" name="recharge_b">
+              <Action ID="MoveToEnergySource" name="move_to_energy_b_source" />
+              <Action ID="RechargeBattery" name="recharge_battery" />
+            </Sequence>
+          </Selector>
+          <Action ID="GoToB" name="go_to_b" />
+        </Sequence>
+      </Sequence>
+    </Selector>
+  </BehaviorTree>
+</root>   <Condition ID="IsCommited" name="is_commited" />
+            </Inverter>
+            <Success ID="Success" name="success">
+              <Action ID="Negotiate(Ia)" name="negotiate_(ia)" />
+            </Success>
+          </Sequence>
+          <Sequence ID="Execute" name="execute">
+            <Condition ID="IsCommited" name="is_commited" />
+            <Action ID="ExecuteTheTask" name="execute_the_task" />
+            <Action ID="NotifyFinish" name="notify_finish" />
+          </Sequence>
+          <Condition ID="JustTransfered" name="just_transfered" />
+        </Selector>
+      </Sequence>
+      <Action ID="CallHelp" name="call_help" />
+    </Selector>
+  </BehaviorTree>
+</root>

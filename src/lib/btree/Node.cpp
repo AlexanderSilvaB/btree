@@ -167,6 +167,12 @@ void Node::asAction(ActionFunc handler)
     nodeType = ACTION;
 }
 
+void Node::asCondition(ConditionFunc handler)
+{
+    this->handlerCondition = handler;
+    nodeType = CONDITION;
+}
+
 void Node::asCall(CallFunc handler)
 {
     this->handlerCall = handler;
@@ -191,6 +197,11 @@ void Node::asParallel()
 void Node::asRandom()
 {
     nodeType = RANDOM;
+}
+
+void Node::asFlipper()
+{
+    nodeType = FLIPPER;
 }
 
 NodePtr Node::asInverter()
@@ -248,6 +259,9 @@ NodeStates Node::evaluate(Blackboard& blackboard)
         case ACTION:
             nodeState = evaluateAction(blackboard);
             break;
+        case CONDITION:
+            nodeState = evaluateCondition(blackboard);
+            break;
         case RANDOM:
             nodeState = evaluateRandom(blackboard);
             break;
@@ -271,6 +285,9 @@ NodeStates Node::evaluate(Blackboard& blackboard)
             break;
         case UNTIL:
             nodeState = evaluateUntil(blackboard);
+            break;
+        case FLIPPER:
+            nodeState = evaluateFlipper(blackboard);
             break;
         default:
             nodeState = FAILURE;
@@ -296,6 +313,17 @@ NodeStates Node::evaluateAction(Blackboard& blackboard)
             break;
     } 
     return FAILURE; 
+}
+
+NodeStates Node::evaluateCondition(Blackboard& blackboard)
+{
+    if(!handlerCondition)
+        return FAILURE;
+
+    bool res = handlerCondition(this->name, blackboard);
+    if(res)
+        return SUCCESS;
+    return FAILURE;
 }
 
 NodeStates Node::evaluateSelector(Blackboard& blackboard)
@@ -410,6 +438,14 @@ NodeStates Node::evaluateUntil(Blackboard& blackboard)
     return SUCCESS; 
 }
 
+NodeStates Node::evaluateFlipper(Blackboard& blackboard)
+{
+    if(nodeState == FAILURE)
+        return SUCCESS;
+    else
+        return FAILURE;
+}
+
 struct NodeDims Node::measure(int width, int height, int margin)
 {
     NodeDims dims, tmp;
@@ -421,6 +457,8 @@ struct NodeDims Node::measure(int width, int height, int margin)
         case LEAF:
         case CALL:
         case ACTION:
+        case CONDITION:
+        case FLIPPER:
             dims.w = width + margin;
             dims.h = height + margin;
             break;
@@ -488,6 +526,8 @@ struct NodeShape Node::place(int x, int y, int width, int height, int margin)
         case LEAF:
         case CALL:
         case ACTION:
+        case CONDITION:
+        case FLIPPER:
             break;
         case RANDOM:
         case SEQUENCE:

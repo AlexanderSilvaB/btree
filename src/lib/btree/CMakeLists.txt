@@ -11,7 +11,8 @@ set(SRC BT.cpp
     Node.cpp
     Var.cpp
     Blackboard.cpp
-    ParallelPool.cpp)
+    ParallelPool.cpp
+    tinyxml2.cpp)
 
 add_library(btree ${SRC})
 target_link_libraries (btree ${CMAKE_THREAD_LIBS_INIT})

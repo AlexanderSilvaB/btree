@@ -7,10 +7,23 @@
 
 using namespace btree;
 using namespace std;
+using namespace tinyxml2;
 
 map< thread::id, BT* > BT::btrees;
 
 static BT defaultBT;
+
+static bool hasEnding (std::string const &fullString, std::string const &ending) 
+{
+    if (fullString.length() >= ending.length()) 
+    {
+        return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+    } 
+    else 
+    {
+        return false;
+    }
+}
 
 static void defaultCall(const std::string& name, Blackboard& blackboard)
 {
@@ -21,6 +34,12 @@ static NodeStates defaultAction(const std::string& name, Blackboard& blackboard)
 {
     cout << "[Action(" << name << ")] Not implemented" << endl;
     return FAILURE;
+}
+
+static bool defaultCondition(const std::string& name, Blackboard& blackboard)
+{
+    cout << "[Condition(" << name << ")] Not implemented" << endl;
+    return false;
 }
 
 BT::BT()
@@ -36,45 +55,79 @@ BT::~BT()
 
 bool BT::load(const std::string& path)
 {
-    std::ifstream i(path);
-    json j;
-    try 
+    if(hasEnding(path, ".json"))
     {
-        j = json::parse(i);
+        std::ifstream i(path);
+        json j;
+        try 
+        {
+            j = json::parse(i);
+        }
+        catch (json::exception &e) 
+        { 
+            std::cout << e.what() << std::endl; 
+            return false;
+        } 
+
+        if(j.size() == 0)
+            return false;
+
+        node = NodePtr(new Node());
+
+        json::iterator it = j.begin();
+        bool valid = fromJson(node, it.key(), it.value());
+        if(!valid)
+            return false;
+
+        updateFunctions();
+        return true;
     }
-    catch (json::exception &e) 
-    { 
-        std::cout << e.what() << std::endl; 
-        return false;
-    } 
+    else if(hasEnding(path, ".xml"))
+    {
+        XMLDocument doc;
+	    if(doc.LoadFile( path.c_str() ) != XML_SUCCESS)
+            return false;
+        
+        XMLElement *root = doc.FirstChildElement("root");
+        if(!root)
+            return false;
 
-    if(j.size() == 0)
-        return false;
+        XMLElement *bt = root->FirstChildElement("BehaviorTree");
+        if(!bt)
+            return false;
 
-    node = NodePtr(new Node());
+        node = NodePtr(new Node());
+        bool valid = fromXML(node, bt->FirstChildElement());
+        if(!valid)
+            return false;
 
-    json::iterator it = j.begin();
-    bool valid = fromJson(node, it.key(), it.value());
-    if(!valid)
-        return false;
+        updateFunctions();
 
-    updateFunctions();
-    return true;
+    }
+    return false;
 }
 
 bool BT::save(const std::string& path)
 {
-    json n;
-    bool valid = toJson(node, n);
-    if(!valid)
-        return false;
+    if(hasEnding(path, ".json"))
+    {
+        json n;
+        bool valid = toJson(node, n);
+        if(!valid)
+            return false;
 
-    json j;
-    j[ node->getName() ] = n;
+        json j;
+        j[ node->getName() ] = n;
 
-    std::ofstream o(path);
-    o << std::setw(4) << j << std::endl;
-    return true;
+        std::ofstream o(path);
+        o << std::setw(4) << j << std::endl;
+        return true;
+    }
+    else if(hasEnding(path, ".xml"))
+    {
+
+    }
+    return false;
 }
 
 void BT::registerCall(const std::string& name, CallFunc call)
@@ -85,6 +138,11 @@ void BT::registerCall(const std::string& name, CallFunc call)
 void BT::registerAction(const std::string& name, ActionFunc action)
 {
     actions[name] = action;
+}
+
+void BT::registerCondition(const std::string& name, ConditionFunc condition)
+{
+    conditions[name] = condition;
 }
 
 bool BT::fromJson(NodePtr node, const string& name, json& j)
@@ -114,6 +172,10 @@ bool BT::fromJson(NodePtr node, const string& name, json& j)
     else if(type == "action")
     {
         node->asAction(NULL);
+    }
+    else if(type == "condition")
+    {
+        node->asCondition(NULL);
     }
     else if(type == "inverter")
     {
@@ -146,6 +208,10 @@ bool BT::fromJson(NodePtr node, const string& name, json& j)
     else if(type == "parallel")
     {
         node->asParallel();
+    }
+    else if(type == "flipper")
+    {
+        node->asFlipper();
     }
     else
     {
@@ -188,6 +254,12 @@ bool BT::toJson(NodePtr node, json& j)
             break;
         case ACTION:
             j["type"] = "action";
+            break;
+        case CONDITION:
+            j["type"] = "condition";
+            break;
+        case FLIPPER:
+            j["type"] = "flipper";
             break;
         case RANDOM:
             j["type"] = "random";
@@ -237,6 +309,97 @@ bool BT::toJson(NodePtr node, json& j)
     return valid;
 }
 
+bool BT::fromXML(NodePtr node, XMLElement* xml)
+{
+    if(!xml)
+        return false;
+    
+    string type = xml->Name();
+
+    if(type == "Call")
+    {
+        node->asCall(NULL);
+    }
+    else if(type == "Action")
+    {
+        node->asAction(NULL);
+    }
+    else if(type == "Condition")
+    {
+        node->asCondition(NULL);
+    }
+    else if(type == "Inverter")
+    {
+        node->asInverter();
+    }
+    else if(type == "Succeeder")
+    {
+        node->asSucceeder();
+    }
+    else if(type == "Repeater")
+    {
+        node->asRepeater();
+    }
+    else if(type == "Until")
+    {
+        node->asUntil();
+    }
+    else if(type == "Selector")
+    {
+        node->asSelector();
+    }
+    else if(type == "Sequence")
+    {
+        node->asSequence();
+    }
+    else if(type == "Random")
+    {
+        node->asRandom();
+    }
+    else if(type == "Parallel")
+    {
+        node->asParallel();
+    }
+    else if(type == "Flipper")
+    {
+        node->asFlipper();
+    }
+    else if(type == "Success")
+    {
+        node->asSucceeder();
+    }
+    else
+    {
+        cout << "Invalid node type: " << type << endl;
+        return false;
+    }
+
+    const char *name = xml->Attribute("name");
+    if(!name)
+        return false;
+    node->setName(string(name));
+    cout << name << endl;
+
+    const char *id = xml->Attribute("ID");
+    if(!id)
+        return false;
+    node->setId(string(id));
+
+    int counter = xml->IntAttribute("counter", -1);
+    node->setCounter(counter);
+
+    XMLElement *child = xml->FirstChildElement();
+    while(child)
+    {
+        NodePtr leaf = node->add();
+        if(!fromXML(leaf, child))
+            return false;
+        child = child->NextSiblingElement();
+    }
+
+    return true;
+}
+
 void BT::updateFunctions()
 {
     updateFunction(node);
@@ -264,6 +427,17 @@ void BT::updateFunction(NodePtr node)
         else
         {
             node->asAction( defaultAction );
+        }
+    }
+    else if(node->type() == CONDITION)
+    {
+        if(conditions.find(node->getName()) != conditions.end())
+        {
+            node->asCondition(conditions[ node->getName() ]);
+        }
+        else
+        {
+            node->asCondition( defaultCondition );
         }
     }
 
@@ -386,6 +560,10 @@ void BT::draw(cv::Mat& img, struct NodeShape& shape, cv::Point2i& archor, bool s
         case ACTION:
             bg = cv::Scalar(2, 99, 163);
             header = "(Action)";
+            break;
+        case CONDITION:
+            bg = cv::Scalar(63, 99, 163);
+            header = "(Condition)";
             break;
         case RANDOM:
             bg = cv::Scalar(163, 128, 2);
